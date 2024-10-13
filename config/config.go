@@ -7,6 +7,8 @@ import (
 )
 
 type Config struct {
+	AppName string `mapstructure:"APP_NAME"`
+
 	DbHost     string `mapstructure:"DB_HOST"`
 	DbPort     string `mapstructure:"DB_PORT"`
 	DbUsername string `mapstructure:"DB_USERNAME"`
@@ -19,6 +21,10 @@ type Config struct {
 
 	DbMaxIdle string `mapstructure:"DB_MAX_IDLE_CONNS"`
 	DbMaxOpen string `mapstructure:"DB_MAX_OPEN_CONNS"`
+
+	LoggerOutput  string `mapstructure:"LOGGER_OUTPUT"`
+	FluentBitHost string `mapstructure:"FLUENTBIT_HOST"`
+	FluentBitPort string `mapstructure:"FLUENTBIT_PORT"`
 }
 
 func InitConfig() *Config {

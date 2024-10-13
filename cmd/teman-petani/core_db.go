@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"strconv"
 	"time"
 
@@ -10,19 +9,19 @@ import (
 )
 
 func startDBConnections() {
-	log.Println("Starting DB Connections")
+	logger.Info().Msg("Starting DB Connections")
 
 	openConnectionPostgresql()
 }
 
 func closeDBConnections() {
-	log.Println("Closing DB Connections")
+	logger.Info().Msg("Closing DB Connections")
 
 	closeConnectionPostgresql()
 }
 
 func openConnectionPostgresql() {
-	log.Println("PostgreSQL - Connecting")
+	logger.Info().Msg("PostgreSQL - Connecting")
 
 	maxRetry, err := strconv.Atoi(appConfig.DbRetry)
 	if err != nil {
@@ -47,7 +46,7 @@ func openConnectionPostgresql() {
 	})
 
 	if err := dbSql.Connect(); err != nil {
-		log.Fatal("Failed to connecting db: ", err)
+		logger.Fatal().Msgf("Failed to connecting db: %v", err)
 	}
 
 	maxIdle, err := strconv.Atoi(appConfig.DbMaxIdle)
@@ -63,15 +62,15 @@ func openConnectionPostgresql() {
 	dbSql.SetMaxIdleConnections(maxIdle)
 	dbSql.SetMaxOpenConnections(maxOpen)
 
-	log.Println("PostgreSQL - Connected")
+	logger.Info().Msg("PostgreSQL - Connected")
 }
 
 func closeConnectionPostgresql() {
-	log.Println("PostgreSQL - Closing")
+	logger.Info().Msg("PostgreSQL - Closing")
 
 	if err := dbSql.CloseConnection(); err != nil {
-		log.Fatal("Failed to closing connection: ", err)
+		logger.Fatal().Msgf("Failed to closing connection: %v", err)
 	}
 
-	log.Println("PostgreSQL - Closed")
+	logger.Info().Msg("PostgreSQL - Closed")
 }
